@@ -2,9 +2,6 @@ import 'package:first_app/quiz.dart';
 import 'package:first_app/result.dart';
 import 'package:flutter/material.dart';
 
-import './question.dart';
-import './answer.dart';
-
 void main() => runApp(const MyApp());
 
 class MyApp extends StatefulWidget {
@@ -50,9 +47,16 @@ class _MyAppState extends State<MyApp> {
   var _totalScore = 0;
 
   void _answerQuestion(int score) {
-    _totalScore += score;
     setState(() {
+      _totalScore += score;
       _questionIndex += 1;
+    });
+  }
+
+  void _onPressedResetButton() {
+    setState(() {
+      _totalScore = 0;
+      _questionIndex = 0;
     });
   }
 
@@ -63,6 +67,6 @@ class _MyAppState extends State<MyApp> {
             appBar: AppBar(title: const Text('My first app')),
             body: _questionIndex < questions.length
                 ? Quiz(questions, _questionIndex, _answerQuestion)
-                : const Result()));
+                : Result(_totalScore, _onPressedResetButton)));
   }
 }
